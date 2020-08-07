@@ -2,6 +2,8 @@
 
 from datetime import datetime, time, date
 
+brthmnth = ('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december')
+
 bnr = 'Bīrth Dãy Téllèr Mâçhïñē'
 bnr = f'* {bnr} *'
 star = ''
@@ -71,12 +73,33 @@ def main():
 		error()
 	
 	
-	birthmonth = input('[+] Enter your birth month[Jan = 1,May = 5, July = 7]: ')
-	errnum(birthmonth)
-	birthmonth = int(birthmonth)
-	if birthmonth < 1 or birthmonth > 12:
+	birthmonth = input('[+] Enter your birth month: ')
+	if birthmonth == brthmnth[0]:
+		birthmonth = 1
+	elif birthmonth == brthmnth[1]:
+		birthmonth = 2
+	elif birthmonth == brthmnth[2]:
+		birthmonth = 3
+	elif birthmonth == brthmnth[3]:
+		birthmonth = 4
+	elif birthmonth == brthmnth[4]:
+		birthmonth = 5
+	elif birthmonth == brthmnth[5]:
+		birthmonth = 6
+	elif birthmonth == brthmnth[6]:
+		birthmonth = 7
+	elif birthmonth == brthmnth[7]:
+		birthmonth = 8
+	elif birthmonth == brthmnth[8]:
+		birthmonth = 9
+	elif birthmonth == brthmnth[9]:
+		birthmonth = 10
+	elif birthmonth == brthmnth[10]:
+		birthmonth = 11
+	elif birthmonth == brthmnth[11]:
+		birthmonth = 12
+	else:
 		error()
-		
 	
 	birthyear = input ('[+] Enter your birth year: ')
 	errnum(birthyear)
@@ -210,14 +233,19 @@ def main():
 	
 if __name__ == '__main__':
 	main()
-	
-while g == 'y':
-	h = input('\n[+] Wanna see birth day again? [y/N]: ').lower()
-	errstr(h)
-	if h == 'y':
-		print('')
-		main()
-	elif h == 'n':
-		greetings()
-	else:
-		error()
+
+
+def reloader():
+	while g == 'y':
+		h = input('\n[+] Wanna see birth day again? [y/N]: ').lower()
+		errstr(h)
+		if h == 'y':
+			print('')
+			main()
+		elif h == 'n':
+			greetings()
+		else:
+			error()
+
+if __name__ == '__main__':
+	reloader()
