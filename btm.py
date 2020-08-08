@@ -119,7 +119,7 @@ def main():
 	b = date (currentyear, birthmonth, birthday)
 	
 	# checking if user's birthday has been passed or not
-	print(f'\n[=] Birth date[YYYY - MM -DD]: {date(birthyear, birthmonth, birthday)}' )
+	print(f'\n[=] Birth date[YYYY-MM-DD]: {date(birthyear, birthmonth, birthday)}' )
 	
 	if birthday == 29 and birthmonth == 2 and birthyear % 4 ==0:
 		currentyear += 4
