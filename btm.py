@@ -20,13 +20,13 @@ print(f'{star} {vrsn} **')
 
 def errnum(user_input):
 	try:
-	    val = int(user_input)
+		val = int(user_input)
 	except ValueError:
 		error()
 		
 def errstr(user_inpt):
 	try:
-	    val = str(user_inpt)
+		val = str(user_inpt)
 	except ValueError:
 		error()
 						
