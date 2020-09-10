@@ -1,6 +1,7 @@
-# python version 3.6.2
+#!/usr/bin/python3
 
 from datetime import datetime, time, date
+from django.contrib.gis.gdal.datasource
 
 brthmnth = ('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december')
 
@@ -74,6 +75,7 @@ def main():
 	
 	
 	birthmonth = input('[+] Enter your birth month: ')
+
 	if birthmonth == brthmnth[0]:
 		birthmonth = 1
 	elif birthmonth == brthmnth[1]:
