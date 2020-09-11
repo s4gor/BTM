@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 from datetime import datetime, time, date
-from django.contrib.gis.gdal.datasource
 
 brthmnth = ('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december')
 
