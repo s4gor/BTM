@@ -73,18 +73,11 @@ def main():
 		error()
 
 
-	birthmonth = input('[+] Enter your birth month: ')
-
-	month = 1
-
+	birthmonth = input('[+] Enter your birth month: ').lower()
 
 	for i in brthmnth:
 		if i == birthmonth:
-			birthmonth = month
-		elif month == 11:
-			error()
-
-		month += 1
+			birthmonth = brthmnth.index(birthmonth) + 1
 
 
 	birthyear = input ('[+] Enter your birth year: ')
@@ -126,7 +119,7 @@ def main():
 	if birthmonth > c.month or birthmonth == c.month and birthday > c.day:
 		k -= 1
 
-	print('\n\t[Informations]')
+	print('\n\t[Information]')
 
 	print(f'\tYears: {k}')
 
