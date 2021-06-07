@@ -2,229 +2,220 @@
 
 from datetime import datetime, time, date
 
-brthmnth = ('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december')
+class BTM(object):
+	"""docstring for BTM"""
 
-bnr = 'Bīrth Dãy Téllèr Mâçhïñē'
-bnr = f'* {bnr} *'
-star = ''
-vrsn = 'Version: 2'
-for ln in range(len(bnr)):
-	star += '*'
-hl = star
-print(star)
-print(bnr)
-star = ''
-for i in range(len(bnr) - len(vrsn) - 4 ):
-	star += '*'
-print(f'{star} {vrsn} **')
+	def banner(self):
 
-def errnum(user_input):
-	try:
-		val = int(user_input)
-	except ValueError:
-		error()
+		programName = 'Bīrth Dãy Téllèr Mâçhïñē'
+		programName = f'* {programName} *'
+		version = 'Version 2.1'
 
-def errstr(user_inpt):
-	try:
-		val = str(user_inpt)
-	except ValueError:
-		error()
+		star = ''
+		for i in range(len(programName)):
+			star += '*'
 
-def greetings():
-	print ('\n[=] Thank you for using this program')
-	print ('\n∆ Creator : https://www.github.com/s4gor ∆')
-	exit()
+		print('\n' + star)
+		print(programName)
 
-# error function
+		star = ''
+		for i in range(len(programName) - len(version) - 4 ):
+			star += '*'
 
-def error():
-	print ('\n[×] Are you alien? Sorry. Invalid')
-	exit()
+		print(f'{star} {version} **')
 
-# main function
+
+	def errorMessage(self):
+		print ('\n[×] Are you alien? Sorry. Invalid')
+		exit()
+
+	def errorNumber(self, userInput):
+		try:
+			val = int(userInput)
+		except ValueError:
+			self.errorMessage()
+
+	def errorString(self, userInput):
+		try:
+			val = str(userInput)
+		except ValueError:
+			self.errorMessage()
+
+	def greetings(self, name):
+		print('')
+		welcome = f'* {name}, welcome to BTM *'
+		star = '*'
+		space = ' '
+		for i in range(len(welcome) - 5):
+			space += ' '
+		for i in range(len(welcome) - 1):
+			star += '*'
+		for i in range(6):
+			if i == 1 or i ==5:
+				print(star)
+			elif i == 2 or i == 4:
+				print(f'* {space} *')
+			elif i == 3:
+				print(welcome)
+
+
+	def information(self, birthDay, birthMonth, birthYear):
+		self.birthDay = birthDay
+		self.birthMonth = birthMonth
+		self.birthYear = birthYear
+
+		months = ('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december')
+		self.days = ( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' )
+
+		today = date.today()
+		self.errorNumber(self.birthDay)
+		self.birthDay = int(self.birthDay)
+
+		if self.birthDay < 1 or self.birthDay > 31:
+			self.errorMessage()
+
+		for i in months:
+			if i == self.birthMonth:
+				self.birthMonth = months.index(self.birthMonth) + 1
+
+		self.errorNumber(self.birthYear)
+		self.birthYear = int(self.birthYear)
+
+		if self.birthYear < 1 or self.birthYear >=  today.year and self.birthMonth > today.month or self.birthMonth > today.month and self.birthDay > today.day:
+			self.errorMessage()
+
+		if self.birthDay == 29 and self.birthMonth == 2 and self.birthYear % 4 != 0:
+			self.errorMessage()
+
+		self.currentYear = today.year
+		currentBirthday = date(self.currentYear, self.birthMonth, self.birthDay)
+
+		if self.birthDay == 29 and self.birthMonth == 2 and self.birthYear % 4 == 0:
+			self.currentYear += 4
+		elif today > currentBirthday:
+			self.currentYear += 1
+		
+		currentBirthday = date (self.currentYear, self.birthMonth, self.birthDay)
+
+		weekNumber = date.weekday(date.today())
+
+		self.currentDays = (currentBirthday - today).days
+		self.currentDays += weekNumber
+
+		totalDays = (date(self.birthYear, self.birthMonth, self.birthDay) - today).days
+
+		year = today.year - self.birthYear
+
+		if self.birthMonth > today.month or self.birthMonth == today.month and self.birthDay > today.day:
+			year -= 1
+
+		month = abs(year * 12) + self.birthMonth
+		week = abs(totalDays // 7)
+		day = abs(totalDays) - 1
+		hour = abs(totalDays * 24) + datetime.time(datetime.today()).hour
+		minute = abs(hour * 60) + datetime.time(datetime.today()).minute
+		second = abs(minute * 60) + datetime.time(datetime.today()).second
+
+		weekDay = str(self.days[(totalDays + weekNumber) % 7])
+
+		return {
+		'years': year,
+		'months': month,
+		'weeks': week,
+		'days': day,
+		'hours': hour,
+		'minutes': minute,
+		'seconds': second,
+		'weekDay': weekDay
+		}
+
+
+	def futureInformation(self, number):
+		self.errorNumber(number)
+		number = int(number)
+
+		if number < 1:
+			print ('[=] Year\'s number can not be 0 or negative\n')
+			exit()
+
+		print('')
+
+		for i in range(number):
+			weekNumber = self.currentDays % 7
+			if self.currentYear % 4 == 0:
+				print ('\t' + str(self.currentYear) +' - '+ str(self.days[weekNumber]) + ' - Leap Year')
+			else:
+				print ('\t' + str(self.currentYear) +' - '+ str(self.days[weekNumber]))
+
+			self.currentYear += 1
+
+			if self.birthDay == 29 and self.birthMonth == 2 and self.birthYear % 4 ==0:
+				self.currentDays += 1460
+				self.currentYear += 3
+			if self.currentYear % 4 == 0 and self.birthMonth >= 3:
+				self.currentDays += 366
+
+			elif self.currentYear % 4 == 1 and self.birthMonth <= 2:
+				self.currentDays += 366
+			else:
+				self.currentDays += 365
+
+	def reload(self):
+		reloader = input('\n[+] Wanna see birth day again? [y/N]: ').lower()
+		self.errorString(reloader)
+
+		if reloader == 'y':
+			main()
+		elif reloader == 'n':
+			self.author()
+		else: self.errorMessage()
+
+	def author(self):
+		print ('\n[=] Thank you for using this program')
+		print ('\n∆ Creator : https://www.github.com/s4gor ∆')
+		exit()
+
+
 
 def main():
 
-	z = input('\n[+] Enter your name: ').strip()
-	print('')
-	z = f'{z}, Welcome to BTM'
-	z = f'* {z} *'
-	q = '*'
-	spaces = ' '
-	for i in range(len(z) - 5):
-		spaces += ' '
-	for i in range(len(z) - 1):
-		q += '*'
-	for i in range(6):
-		if i == 1 or i ==5:
-			print(q)
-		elif i == 2 or i == 4:
-			print(f'* {spaces} *')
-		elif i == 3:
-			print(z)
+	user = BTM()
 
-	# input of birth day, month, year
-	c = date.today()
+	user.banner()
 
-	birthday = input ('\n[+] Enter your birth day: ')
-	errnum(birthday)
-	birthday = int(birthday)
-	if birthday < 1 or birthday > 31:
-		error()
+	name = input('\n[+] Enter your name: ').strip()
+
+	user.greetings(name.title())
+
+	birthDay = input ('\n[+] Enter your birth day: ')
+	birthMonth = input('[+] Enter your birth month: ').lower()
+	birthYear = input ('[+] Enter your birth year: ')
 
 
-	birthmonth = input('[+] Enter your birth month: ').lower()
+	information = user.information(birthDay, birthMonth, 
+		birthYear)
 
-	for i in brthmnth:
-		if i == birthmonth:
-			birthmonth = brthmnth.index(birthmonth) + 1
+	print(f'\n[=] Birth date: {birthDay.title()} {birthMonth.title()}, {birthYear.title()}')
 
+	weekDay = information['weekDay']
 
-	birthyear = input ('[+] Enter your birth year: ')
-	errnum(birthyear)
-	birthyear = int(birthyear)
-	if birthyear < 1 or birthyear >=  c.year and birthmonth > c.month or birthmonth > c.year and birthday > c.day:
-		error()
-
-
-	if birthday == 29 and birthmonth == 2 and birthyear % 4 != 0:
-		error()
-
-	# getting today's date and user's birthday'
-
-
-	currentyear = c.year
-
-	b = date (currentyear, birthmonth, birthday)
-
-	# checking if user's birthday has been passed or not
-	print(f'\n[=] Birth date[YYYY-MM-DD]: {date(birthyear, birthmonth, birthday)}' )
-
-	if birthday == 29 and birthmonth == 2 and birthyear % 4 ==0:
-		currentyear += 4
-	elif c > b:
-		currentyear += 1
-	b = date (currentyear, birthmonth, birthday)
-
-	# days calculation
-
-	j = date.weekday(date.today())
-
-	d = (b - c).days
-	d = d + j
-
-	a = (date(birthyear, birthmonth, birthday) - c).days
-
-	k = c.year - birthyear
-	if birthmonth > c.month or birthmonth == c.month and birthday > c.day:
-		k -= 1
+	print (f'\n[=] You were born on {weekDay.upper()}')
 
 	print('\n\t[Information]')
+	for info in information:
+		if info == 'weekDay': continue
+		print(f'\t{info.title()}: {information[info]}')
 
-	print(f'\tYears: {k}')
+	active = input ("\n[+] Do you want to see your next year's birth day ? [Y/n]: ").lower()
+	user.errorString(active)
 
-	k = abs(k * 12) + birthmonth
-
-	print(f'\tMonths: {k}')
-
-	k = abs(a // 7)
-
-	print(f'\tWeeks: {k}')
-
-	s = abs(a) - 1
-
-	print(f'\tDays: {s}')
-
-	k = abs(a * 24) + datetime.time(datetime.today()).hour
-
-	print(f'\tHours: {k}')
-
-	k = abs(k * 60) + datetime.time(datetime.today()).minute
-
-	print(f'\tMinutes: {k}')
-
-	k = abs(k * 60) + datetime.time(datetime.today()).second
-
-	print(f'\tSeconds: {k}')
-
-	k  = abs(k * 1000)
-
-	print(f'\tMilliseconds: {k}')
-
-	k = abs(k * 1000)
-
-	print(f'\tMicroseconds: {k}')
-
-	k = abs(k * 1000)
-
-	print(f'\tNanoseconds: {k}')
-
-	# week days
-
-	days = ( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' )
-
-	a += j
-
-	a = a % 7
-
-	print ('\n[=] You were born on ' + str(days[a]).upper())
-
-	# birth day want to see
-	global g
-	g = input ("\n[+] Do you want to see your next year's birth day ? [Y/n]: ").lower()
-	errstr(g)
-	if g == 'y':
-		t = input ("[+] How many year's birth day do you want to see: ")
-		errnum(t)
-		t = int(t)
-		if t < 1:
-			print ('[=] Print number can not be 0 or negative')
-			exit()
-
-		print ('')
-	elif g == 'n':
-		greetings()
-	else:
-		error()
-
-	# loop for printing required year's birth day
-
-	for i in range(t):
-
-			c = d % 7
-			if currentyear % 4 == 0:
-				print ('\t' + str(currentyear) +' - '+ str(days[c]) + ' - Leap Year')
-			else:
-				print ('\t' + str(currentyear) +' - '+ str(days[c]))
-
-			currentyear += 1
-
-			if birthday == 29 and birthmonth == 2 and birthyear % 4 ==0:
-				d += 1460
-				currentyear += 3
-			if currentyear % 4 == 0 and birthmonth >= 3:
-				d += 366
-
-			elif currentyear % 4 == 1 and birthmonth <= 2:
-				d += 366
-			else:
-				d += 365
+	if active == 'y':
+		number = input ("\n[+] How many year's birth day do you want to see: ")
+		user.futureInformation(number)
+		user.reload()
+	elif active == 'n':
+		user.reload()
+	else: user.errorMessage()
 
 if __name__ == '__main__':
 	main()
-
-
-def reloader():
-	while g == 'y':
-		h = input('\n[+] Wanna see birth day again? [y/N]: ').lower()
-		errstr(h)
-		if h == 'y':
-			print('')
-			main()
-		elif h == 'n':
-			greetings()
-		else:
-			error()
-
-if __name__ == '__main__':
-	reloader()
