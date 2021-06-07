@@ -109,7 +109,9 @@ class BTM(object):
 		if self.birthMonth > today.month or self.birthMonth == today.month and self.birthDay > today.day:
 			year -= 1
 
-		month = abs(year * 12) + self.birthMonth
+		if today.month > self.birthMonth:
+			month = abs(year * 12) + today.month - self.birthMonth
+		else: month = abs(year * 12) + today.month + self.birthMonth - 1
 		week = abs(totalDays // 7)
 		day = abs(totalDays) - 1
 		hour = abs(totalDays * 24) + datetime.time(datetime.today()).hour
